@@ -41,7 +41,9 @@ for (const [label, viewport] of [['d', { width: 1366, height: 900 }], ['m', { wi
   page.on('requestfailed', (r) => r.url().startsWith(base) && errors.push(`failed to load ${r.url()}`));
   for (const p of pages) {
     errors.length = 0;
-    await page.goto(base + p, { waitUntil: 'networkidle' });
+    // 'load', not 'networkidle': Turnstile keeps a connection busy on the contact page.
+    try { await page.goto(base + p, { waitUntil: 'load' }); } catch (e) { errors.push(`page did not load: ${e.message.split('\n')[0]}`); }
+    await page.waitForTimeout(300);
     for (let y = 0; y < 20000; y += 600) { await page.mouse.wheel(0, 600); await page.waitForTimeout(40); }
     await page.waitForTimeout(600);
     const r = await page.evaluate(() => ({
