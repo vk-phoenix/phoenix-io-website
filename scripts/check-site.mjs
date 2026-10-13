@@ -1,10 +1,30 @@
 // Screenshots every page at desktop and phone width and fails on console errors,
-// horizontal overflow, or broken internal links. Run after `npm run build`
-// with a static server on :4321 (`npx astro preview`).
+// horizontal overflow, or broken internal links. Run after `npm run build`;
+// it serves dist/ itself unless BASE_URL points at a running site.
 import { chromium } from 'playwright';
 import fs from 'node:fs';
+import http from 'node:http';
+import path from 'node:path';
 
-const base = process.env.BASE_URL || 'http://localhost:4321';
+process.on('uncaughtException', (e) => { console.log(`::error::check crashed: ${e.stack || e}`); process.exit(1); });
+process.on('unhandledRejection', (e) => { console.log(`::error::check crashed: ${e?.stack || e}`); process.exit(1); });
+
+const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.woff': 'font/woff', '.xml': 'application/xml', '.txt': 'text/plain', '.webmanifest': 'application/manifest+json' };
+let server;
+let base = process.env.BASE_URL;
+if (!base) {
+  const root = path.resolve('dist');
+  server = http.createServer((req, res) => {
+    let file = path.join(root, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+    if (!file.startsWith(root)) { res.writeHead(403).end(); return; }
+    if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
+    if (!fs.existsSync(file)) { res.writeHead(404).end(); return; }
+    res.writeHead(200, { 'content-type': types[path.extname(file)] || 'application/octet-stream' });
+    fs.createReadStream(file).pipe(res);
+  });
+  await new Promise((r) => server.listen(4399, '127.0.0.1', r));
+  base = 'http://127.0.0.1:4399';
+}
 const pages = ['/', '/capabilities/', '/projects/', '/past-performance/', '/contracting/', '/teaming/', '/about/', '/contact/', '/accessibility/', '/privacy/'];
 const outDir = process.env.SHOTS || 'shots';
 fs.mkdirSync(outDir, { recursive: true });
@@ -44,4 +64,5 @@ for (const h of links) {
   if (!res.ok) { failed++; console.log(`::error::broken link ${h} ${res.status}`); }
 }
 await browser.close();
+server?.close();
 process.exit(failed ? 1 : 0);
