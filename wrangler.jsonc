@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "phoenix-io-website",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    "CONTACT_TO": "info@phoenixio.co",
+    "CONTACT_FROM": "Phoenix I/O website <website@phoenixio.co>"
+  }
+  // Secrets (set with `npx wrangler secret put NAME`, never committed):
+  //   TURNSTILE_SECRET  - Turnstile secret key for the contact form
+  //   RESEND_API_KEY    - API key for sending the contact form email
+}
