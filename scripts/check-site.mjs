@@ -14,7 +14,8 @@ const links = new Set();
 for (const [label, viewport] of [['d', { width: 1366, height: 900 }], ['m', { width: 390, height: 844 }]]) {
   const page = await browser.newPage({ viewport });
   const errors = [];
-  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  // Console errors from third-party scripts (Turnstile, analytics) are theirs, not ours.
+  page.on('console', (m) => m.type() === 'error' && (m.location().url || base).startsWith(base) && errors.push(m.text()));
   page.on('pageerror', (e) => errors.push(e.message));
   // Third-party scripts (Turnstile, analytics) may be unreachable in CI; only our own files must load.
   page.on('requestfailed', (r) => r.url().startsWith(base) && errors.push(`failed to load ${r.url()}`));
@@ -32,14 +33,15 @@ for (const [label, viewport] of [['d', { width: 1366, height: 900 }], ['m', { wi
     const bad = errors.filter((e) => !/^Failed to load resource/.test(e));
     const ok = r.overflow <= 0 && r.hidden === 0 && bad.length === 0;
     if (!ok) failed++;
-    console.log(`${ok ? 'ok  ' : 'FAIL'} ${label} ${p} overflow=${r.overflow} unrevealed=${r.hidden} errors=${bad.join(' | ')}`);
+    const line = `${label} ${p} overflow=${r.overflow} unrevealed=${r.hidden} errors=${bad.join(' | ')}`;
+    console.log(ok ? `ok   ${line}` : `::error::${line}`);
     await page.screenshot({ path: `${outDir}/${label}${p.replace(/\//g, '_') || '_'}.png`, fullPage: true });
   }
   await page.close();
 }
 for (const h of links) {
   const res = await fetch(base + h);
-  if (!res.ok) { failed++; console.log(`FAIL link ${h} ${res.status}`); }
+  if (!res.ok) { failed++; console.log(`::error::broken link ${h} ${res.status}`); }
 }
 await browser.close();
 process.exit(failed ? 1 : 0);
