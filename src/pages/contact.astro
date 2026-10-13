@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
+---
+<Base title={'Contact'} description={'Contact Phoenix I/O about contracting inquiries or teaming. +1 551-465-4595, info@phoenixio.co.'} page="contact">
+  <script slot="head" is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<section class="page" id="p-contact" data-title="Contact">
+  <div class="pagehead"><div class="wrap"><span class="label">Contact</span><h1>Let's talk.</h1><p class="lede">Contracting inquiries, teaming, or anything else. The capability statement is on the <a href="/contracting/">Contracting</a> page, no form required.</p></div></div>
+  <section class="section">
+    <div class="wrap twocol">
+      <form id="cform" class="stackL" style="gap:28px" action="/api/contact" method="post">
+        <div class="row"><div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required maxlength="120"></div><div class="field"><label for="f-org">Organization</label><input id="f-org" name="organization" autocomplete="organization" maxlength="160"></div></div>
+        <div class="row"><div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200"></div><div class="field"><label for="f-phone">Phone (optional)</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div></div>
+        <div class="field"><label for="f-reason">Reason</label><select id="f-reason" name="reason"><option>Contracting inquiry</option><option>Teaming opportunity</option><option>Other</option></select></div>
+        <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required maxlength="5000"></textarea></div>
+        <div class="hp" aria-hidden="true"><label for="f-website">Leave this empty</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="cf-turnstile" data-sitekey={siteKey} data-theme="dark"></div>
+        <div><button class="btn primary" type="submit">Send message <span class="arr">→</span></button></div>
+        <p class="formmsg" id="formmsg" role="status" aria-live="polite"></p>
+      </form>
+      <aside class="side" aria-label="Contact details">
+        <span class="label">Direct</span>
+        <div class="cline"><span>Phone</span><b>+1 551-465-4595</b></div>
+        <div class="cline"><span>Email</span><b>info@phoenixio.co</b></div>
+        <div class="cline"><span>Office</span><p style="color:var(--text)">335 George St, STE 126<br>New Brunswick, NJ 08901</p></div>
+      </aside>
+    </div>
+  </section>
+</section>
+</Base>

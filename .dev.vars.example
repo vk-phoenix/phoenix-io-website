@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local testing with `npm run preview`.
+# These are Cloudflare's always-pass Turnstile test keys.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+RESEND_API_KEY=

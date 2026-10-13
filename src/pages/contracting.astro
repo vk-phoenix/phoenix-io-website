@@ -1,0 +1,48 @@
+---
+import fs from 'node:fs';
+import Base from '../layouts/Base.astro';
+const pdf = '/phoenix-io-capability-statement.pdf';
+const hasPdf = fs.existsSync(new URL('../../public' + pdf, import.meta.url));
+---
+<Base title={'Contracting'} description={'Phoenix I/O company data for contracting officers: UEI, CAGE, NAICS codes, size status, capability statement and point of contact.'} page="contracting">
+<section class="page" id="p-contracting" data-title="Contracting">
+  <div class="pagehead"><div class="wrap"><span class="label">Contracting</span><h1>Verify us in one place.</h1><p class="lede">Company data, NAICS codes and how to buy. Current as of October 2026.</p></div></div>
+  <section class="section">
+    <div class="wrap twocol">
+      <div class="stackL">
+        <div class="tablebox"><table><caption>Company data</caption><tbody>
+          <tr><th scope="row">Legal name</th><td>Phoenix I/O LLC</td></tr>
+          <tr><th scope="row">UEI</th><td class="mono">G2VAY6MY6515<button class="copy" data-copy="G2VAY6MY6515" aria-label="Copy UEI">Copy</button></td></tr>
+          <tr><th scope="row">CAGE</th><td class="mono">Pending<span class="tag ember">In process</span></td></tr>
+          <tr><th scope="row">SAM registration</th><td>Active (expiration date shown here)</td></tr>
+          <tr><th scope="row">Business size</th><td>Small Business</td></tr>
+          <tr><th scope="row">Socioeconomic status</th><td>None claimed</td></tr>
+          <tr><th scope="row">Address</th><td>335 George St, STE 126, New Brunswick, NJ 08901</td></tr>
+        </tbody></table></div>
+        <div class="tablebox"><table><caption>NAICS codes</caption>
+          <thead><tr><th scope="col">Code</th><th scope="col">Title</th><th scope="col">Size</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">541511</td><td>Custom Computer Programming Services<span class="tag ember">Primary</span></td><td>Small</td></tr>
+            <tr><td class="mono">541512</td><td>Computer Systems Design Services</td><td>Small</td></tr>
+            <tr><td class="mono">518210</td><td>Computing Infrastructure Providers, Data Processing, Web Hosting</td><td>Small</td></tr>
+            <tr><td class="mono">541519</td><td>Other Computer Related Services</td><td>Small</td></tr>
+            <tr><td class="mono">541611</td><td>Administrative and General Management Consulting</td><td>Small</td></tr>
+          </tbody></table></div>
+        <div class="quiet"><h3>How to buy from us</h3><p>No contract vehicles yet. Phoenix I/O is available through open-market awards, small business set-asides under the codes above, and as a subcontractor or teaming partner.</p></div>
+        <div class="block"><span class="label">Core competencies</span><p>Cloud data platforms and modernization · data integration and orchestration · data governance and security · full-stack and mobile applications · high-performance distributed systems · observability and reliability · AI-enabled automation · analytics and BI · applied cryptography · technical program management.</p><a class="link" href="/capabilities/" style="align-self:flex-start">Full capabilities →</a></div>
+      </div>
+      <aside class="side" aria-label="Contracting contact">
+        <span class="label">Capability statement</span>
+        <p>One page, updated October 2026.</p>
+        {hasPdf ? <a class="btn primary" href={pdf} download style="align-self:flex-start">Download PDF <span class="arr">↓</span></a> : <a class="btn primary" href="/contact/" style="align-self:flex-start">Request by email <span class="arr">→</span></a>}
+        <hr>
+        <span class="label">Point of contact</span>
+        <h3>Contracts and Business Development</h3>
+        <div class="cline"><span>Phone</span><b>+1 551-465-4595</b></div>
+        <div class="cline"><span>Email</span><b>info@phoenixio.co</b></div>
+        <a class="link" href="/contact/" style="align-self:flex-start">Send an inquiry →</a>
+      </aside>
+    </div>
+  </section>
+</section>
+</Base>
