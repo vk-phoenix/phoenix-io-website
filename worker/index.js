@@ -19,6 +19,7 @@ async function verifyTurnstile(token, ip, secret) {
   if (ip) body.append('remoteip', ip);
   const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
   const out = await res.json().catch(() => ({}));
+  if (out.success !== true) console.error('turnstile rejected', JSON.stringify(out['error-codes'] || []));
   return out.success === true;
 }
 
@@ -66,6 +67,10 @@ async function handleContact(request, env) {
   }
   if (!REASONS.includes(f.reason)) f.reason = 'Other';
 
+  if (!env.TURNSTILE_SECRET) {
+    console.error('TURNSTILE_SECRET is not set');
+    return json(503, { error: 'The form is not available right now. Please email info@phoenixio.co.' });
+  }
   const ip = request.headers.get('cf-connecting-ip');
   if (!(await verifyTurnstile(String(form.get('cf-turnstile-response') || ''), ip, env.TURNSTILE_SECRET))) {
     return json(400, { error: 'The spam check did not pass. Please try again.' });
