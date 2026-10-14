@@ -72,7 +72,7 @@ async function handleContact(request, env) {
 
   if (!env.TURNSTILE_SECRET) {
     console.error('TURNSTILE_SECRET is not set');
-    return json(503, { error: 'The form is not available right now. Please email info@phoenixio.co.' });
+    return json(503, { error: 'The form is not available right now. Please email info@phoenixio.co. (spam check not set up)' });
   }
   const ip = request.headers.get('cf-connecting-ip');
   const rejected = await verifyTurnstile(String(form.get('cf-turnstile-response') || ''), ip, env.TURNSTILE_SECRET);
@@ -82,7 +82,7 @@ async function handleContact(request, env) {
   }
   if (!env.RESEND_API_KEY) {
     console.error('RESEND_API_KEY is not set');
-    return json(503, { error: 'The form is not available right now. Please email info@phoenixio.co.' });
+    return json(503, { error: 'The form is not available right now. Please email info@phoenixio.co. (email sending not set up)' });
   }
   if (!(await sendEmail(env, f))) {
     return json(502, { error: 'Your message could not be sent. Please email info@phoenixio.co.' });
