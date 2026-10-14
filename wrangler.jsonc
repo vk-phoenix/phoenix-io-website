@@ -11,6 +11,8 @@
     "run_worker_first": ["/api/*"]
   },
   "observability": { "enabled": true },
+  // Keep variables added in the dashboard when a deploy runs.
+  "keep_vars": true,
   "vars": {
     "CONTACT_TO": "info@phoenixio.co",
     "CONTACT_FROM": "Phoenix I/O website <website@phoenixio.co>"
