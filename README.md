@@ -47,9 +47,7 @@ One-time setup, in this order. Steps 2 to 4 keep Google Workspace email working.
    - Any `google-site-verification` TXT record
 4. At GoDaddy, **Domain → Manage DNS → Nameservers → Change** to the two Cloudflare nameservers. Send a test email in and out afterwards.
 5. In Cloudflare, **Workers & Pages → Create → Import a repository** → this repo. Build command `npm run build`, deploy command `npx wrangler deploy`. Every push to `main` deploys; other branches get preview URLs.
-6. **Turnstile → Add widget** for `phoenixio.co`. Then:
-   - add the site key as a build variable `PUBLIC_TURNSTILE_SITE_KEY` on the Worker's build settings
-   - add the secret key with `npx wrangler secret put TURNSTILE_SECRET` (or in the dashboard as a secret)
+6. **Turnstile → Add widget** for `phoenixio.co`. The site key is public and lives in `src/pages/contact.astro`. Save the secret key on the Worker as the secret `TURNSTILE_SECRET` (Settings → Variables and Secrets → Add → type Secret).
 7. Contact form email: create a free [Resend](https://resend.com) account, verify `phoenixio.co` there (it gives DNS records to add in Cloudflare), and save the API key as the secret `RESEND_API_KEY`. The sender is `website@phoenixio.co` and replies go to the visitor.
 8. **Worker → Settings → Domains & Routes**: add `phoenixio.co` and `www.phoenixio.co`. Add a redirect rule from `www` to the bare domain.
 9. **Analytics & Logs → Web Analytics**: enable for the site (no cookies, no banner needed).

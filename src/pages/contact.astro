@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
+// Turnstile site keys are public. Local dev uses Cloudflare's always-pass test key,
+// which pairs with the test secret in .dev.vars.example.
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAFW4dcE0Jl7Dz5B5');
 ---
 <Base title={'Contact'} description={'Contact Phoenix I/O about contracting inquiries or teaming. +1 551-465-4595, info@phoenixio.co.'} page="contact">
   <script slot="head" is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
