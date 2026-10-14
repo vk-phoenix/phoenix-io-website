@@ -11,16 +11,19 @@ const json = (status, body) =>
     headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
   });
 
+// Returns '' when the check passes, otherwise Cloudflare's error codes.
 async function verifyTurnstile(token, ip, secret) {
-  if (!token || !secret) return false;
+  if (!token) return 'missing-input-response';
   const body = new FormData();
   body.append('secret', secret);
   body.append('response', token);
   if (ip) body.append('remoteip', ip);
   const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body });
   const out = await res.json().catch(() => ({}));
-  if (out.success !== true) console.error('turnstile rejected', JSON.stringify(out['error-codes'] || []));
-  return out.success === true;
+  if (out.success === true) return '';
+  const codes = (out['error-codes'] || []).join(', ') || `http-${res.status}`;
+  console.error('turnstile rejected', codes);
+  return codes;
 }
 
 async function sendEmail(env, f) {
@@ -72,8 +75,10 @@ async function handleContact(request, env) {
     return json(503, { error: 'The form is not available right now. Please email info@phoenixio.co.' });
   }
   const ip = request.headers.get('cf-connecting-ip');
-  if (!(await verifyTurnstile(String(form.get('cf-turnstile-response') || ''), ip, env.TURNSTILE_SECRET))) {
-    return json(400, { error: 'The spam check did not pass. Please try again.' });
+  const rejected = await verifyTurnstile(String(form.get('cf-turnstile-response') || ''), ip, env.TURNSTILE_SECRET);
+  if (rejected) {
+    // The codes are Cloudflare's public reason names; showing them makes setup problems easy to report.
+    return json(400, { error: `The spam check did not pass. Please try again. (${rejected})` });
   }
   if (!env.RESEND_API_KEY) {
     console.error('RESEND_API_KEY is not set');
