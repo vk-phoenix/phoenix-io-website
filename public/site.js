@@ -55,10 +55,15 @@
     });
     // rotating word
     var rot=document.querySelector(".rot"), words=["can't fail.","must scale.","stay secure.","never sleep."], wi=0;
+    // Background tabs pause requestAnimationFrame but keep timers running, so
+    // skip ticks while hidden and keep only the current word before each swap.
     if(rot){ setInterval(function(){
-            var cur=rot.querySelector("span:not(.out)"); wi=(wi+1)%words.length;
+      if(document.hidden) return;
+      while(rot.children.length>1) rot.removeChild(rot.firstElementChild);
+      var cur=rot.firstElementChild; cur.className=""; wi=(wi+1)%words.length;
       var nx=document.createElement("span"); nx.className="wait"; nx.textContent=words[wi]; rot.appendChild(nx);
-      requestAnimationFrame(function(){ requestAnimationFrame(function(){ cur.classList.add("out"); nx.classList.remove("wait"); }); });
+      void nx.offsetWidth; // commit the start position so the transition runs
+      cur.classList.add("out"); nx.classList.remove("wait");
       setTimeout(function(){ if(cur.parentNode) cur.parentNode.removeChild(cur); },900);
     },3200); }
     // reveal targets
