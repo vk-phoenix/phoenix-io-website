@@ -13,7 +13,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # The real Turnstile key only works on phoenixio.co; CI pages run on localhost,
+      # so build them with Cloudflare's always-pass test key.
       - run: npm run build
+        env:
+          PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
       - run: npx wrangler deploy --dry-run --outdir .wrangler-dry
       - run: npx playwright install --with-deps chromium
       - name: Check pages
