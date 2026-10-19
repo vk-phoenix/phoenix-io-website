@@ -208,6 +208,9 @@ td.mono{font-size:.9rem}
 .feature ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
 .feature li{padding:12px 0;border-top:1px solid var(--hair);font-size:.92rem}
 .feature li:last-child{border-bottom:1px solid var(--hair)}
+.feature li b{font-weight:500;color:var(--text)}
+.feature .sub{font-family:var(--display);font-weight:300;font-size:clamp(1.2rem,1.8vw,1.5rem);letter-spacing:-.02em;line-height:1.25;color:var(--soft);margin-top:-8px}
+.phasetrack>p{font-size:.9rem;color:var(--soft)}
 .big{font-family:var(--display);font-weight:300;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-.04em;line-height:1;color:var(--text)}
 .big i{font-style:normal;color:var(--ember-lite)}
 .arch{min-width:0;padding:28px;border:1px solid var(--hair);border-radius:20px;background:radial-gradient(circle at 50% 40%,rgba(46,49,146,.22),transparent 70%)}
@@ -230,7 +233,7 @@ td.mono{font-size:.9rem}
 @media (max-width:520px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis div:nth-child(3){border-left:0;padding-left:0}.kpis div:nth-child(n+3){border-top:1px solid var(--hair)}}
 .phasetrack{padding:24px 28px;border:1px solid var(--hair);border-radius:20px;display:flex;flex-direction:column;gap:16px}
 .pt-head{display:flex;justify-content:space-between;gap:12px}
-.phasetrack ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px}
+.phasetrack ol,.phasetrack ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px}
 .phasetrack li{padding:0!important;border:0!important;display:flex;gap:10px;align-items:center;font-size:.84rem;color:var(--faint)}
 .phasetrack li i{width:9px;height:9px;border-radius:50%;border:1px solid var(--hair-2);flex:none}
 .phasetrack li.done{color:var(--soft)}
@@ -238,7 +241,7 @@ td.mono{font-size:.9rem}
 .phasetrack li.now{color:var(--text)}
 .phasetrack li.now i{border-color:var(--ember-lite);box-shadow:0 0 0 3px rgba(255,138,92,.18);animation:nowPulse 1.8s ease-in-out infinite}
 @keyframes nowPulse{50%{box-shadow:0 0 0 6px rgba(255,138,92,0)}}
-@media (max-width:420px){.phasetrack ol{grid-template-columns:1fr}.phasetrack{padding:20px}}
+@media (max-width:420px){.phasetrack ol,.phasetrack ul{grid-template-columns:1fr}.phasetrack{padding:20px}}
 /* steps */
 .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--hair);counter-reset:s}
 .steps li{counter-increment:s;padding:28px 28px 0;border-left:1px solid var(--hair);display:flex;flex-direction:column;gap:8px}
