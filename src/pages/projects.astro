@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title={'Projects'} description={'Systems built by Phoenix I/O, including the MedTransport dispatch and crew platform and a sub-millisecond trading system.'} page="projects">
+<Base title={'Projects'} description={'Systems built by Phoenix I/O, including the MedTransport transportation management and dispatch platform for NEMT and ambulance providers, and a sub-millisecond trading system.'} page="projects">
 <section class="page" id="p-projects" data-title="Projects">
   <div class="pagehead"><div class="wrap"><span class="label">Projects</span><h1>Built by Phoenix I/O.</h1><p class="lede">For engagements our principals led at prior firms, see <a href="/past-performance/">Past Performance</a>.</p></div></div>
   <div class="wrap">
@@ -9,54 +9,44 @@ import Base from '../layouts/Base.astro';
       <div class="meta">
         <span class="label ember">Phoenix I/O product · Healthcare transport</span>
         <h2>MedTransport</h2>
-        <p>A dispatch, crew and fleet platform for non-emergency medical transport and ambulance companies. It covers patients and authorizations, trips and standing orders, a live dispatch board, crew credentials and vehicle inspections, and an Android crew app that keeps working offline and signs everything it syncs.</p>
-        <p class="big"><i>8</i> phases in <i>11</i> days</p>
-        <div class="kpis" aria-label="Project figures">
-          <div><b>181</b><span>commits</span></div>
-          <div><b>61</b><span>database migrations</span></div>
-          <div><b>112</b><span>review findings, all fixed</span></div>
-          <div><b>13</b><span>live-check scripts</span></div>
-        </div>
+        <p class="sub">Unified transportation management and dispatch platform</p>
+        <p>An integrated operations platform for non-emergency medical transportation (NEMT) and ambulance providers, supporting ambulatory, wheelchair, stretcher, BLS and ALS services.</p>
+        <p>MedTransport connects patient intake, scheduling, dispatch, crew operations, fleet management and compliance through a single, secure system. Every trip keeps a continuous, auditable record from initial booking through service completion, eliminating duplicate data entry, improving operational visibility and supporting accurate downstream billing.</p>
+        <span class="label">Key platform capabilities</span>
         <ul>
-          <li>Secure sign-in and roles, company isolation enforced in both the app and the database, and a tamper-evident audit log with alerts</li>
-          <li>Patients, payers, facilities, coverage and authorizations, with encrypted documents and CSV import and export</li>
-          <li>Trips, standing orders, a dispatch board, maps, ETAs and live tracking</li>
-          <li>Crew credentials and reminders, vehicle inspections, defects and capacity</li>
-          <li>Kotlin crew app with a key vault, app lock, signatures and defect photos, plus signed offline sync with per-event locking and a review queue</li>
-          <li>Every phase code-reviewed before the next began; security mapped to OWASP ASVS L2 for the web and MASVS L2 for the app</li>
+          <li><b>Patient intake and scheduling.</b> Centralized patient records, coverage and authorization tracking, recurring transportation orders, automated validation and scheduling safeguards that reduce administrative errors.</li>
+          <li><b>Real-time dispatch and operations.</b> An interactive dispatch board with trip assignments, vehicle locations, ETAs, shift coordination and crew-confirmed changes, giving dispatchers continuous visibility into daily operations.</li>
+          <li><b>Offline-first mobile application.</b> A native Android application that lets drivers and medical crews manage assignments, record trip milestones, capture signatures, complete vehicle inspections and document incidents without continuous internet connectivity. Events synchronize securely when connectivity returns.</li>
+          <li><b>Fleet and workforce compliance.</b> Centralized management of professional credentials, certification expirations, vehicle documentation, inspections, capacity restrictions and out-of-service conditions, with automated alerts and assignment-level checks.</li>
+          <li><b>Security and auditability.</b> Multi-company data isolation enforced at the database level, granular role-based permissions, multi-factor authentication, encrypted patient information, hardware-backed cryptographic signatures and tamper-evident activity records.</li>
+          <li><b>Integrated trip lifecycle.</b> Unified operational records designed to support electronic claims processing, payment reconciliation and electronic patient care reporting (ePCR) without duplicating information across disconnected systems.</li>
         </ul>
       </div>
       <div class="stackL" style="gap:20px;min-width:0">
         <div class="arch">
-          <svg viewBox="0 0 440 250" role="img" aria-label="Architecture: Kotlin crew app with signed offline sync and a web dispatch board connect to the API, which enforces company isolation and stores data in PostgreSQL with a tamper-evident audit log.">
-            <g class="n"><rect x="10" y="20" width="124" height="50" rx="10"/><text class="t" x="24" y="42">Crew app</text><text x="24" y="58">Kotlin · offline</text></g>
-            <g class="n"><rect x="10" y="180" width="124" height="50" rx="10"/><text class="t" x="24" y="202">Dispatch board</text><text x="24" y="218">web · live map</text></g>
-            <g class="n hot"><rect x="166" y="98" width="114" height="54" rx="10"/><text class="t" x="180" y="121">API</text><text x="180" y="138">roles · isolation</text></g>
-            <g class="n"><rect x="310" y="40" width="124" height="50" rx="10"/><text class="t" x="322" y="62">PostgreSQL</text><text x="322" y="78">per-company rows</text></g>
-            <g class="n"><rect x="310" y="160" width="124" height="50" rx="10"/><text class="t" x="322" y="182">Audit log</text><text x="322" y="198">tamper-evident</text></g>
+          <svg viewBox="0 0 440 250" role="img" aria-label="Architecture: a Kotlin Android app with signed offline sync and a server-rendered web interface connect to a centralized application service, which enforces roles and company isolation and stores data in PostgreSQL with append-only audit records.">
+            <g class="n"><rect x="10" y="20" width="124" height="50" rx="10"/><text class="t" x="24" y="42">Android app</text><text x="24" y="58">Kotlin · offline</text></g>
+            <g class="n"><rect x="10" y="180" width="124" height="50" rx="10"/><text class="t" x="24" y="202">Web interface</text><text x="24" y="218">server-rendered</text></g>
+            <g class="n hot"><rect x="166" y="98" width="122" height="54" rx="10"/><text class="t" x="180" y="121">App service</text><text x="180" y="138">roles · isolation</text></g>
+            <g class="n"><rect x="310" y="40" width="124" height="50" rx="10"/><text class="t" x="322" y="62">PostgreSQL</text><text x="322" y="78">company isolation</text></g>
+            <g class="n"><rect x="310" y="160" width="124" height="50" rx="10"/><text class="t" x="322" y="182">Audit records</text><text x="322" y="198">append-only</text></g>
             <path class="flow" d="M134 45 C 152 45, 150 115, 166 115"/><path class="flow" d="M134 205 C 152 205, 150 135, 166 135"/>
-            <path d="M280 115 C 296 115, 296 65, 310 65"/><path d="M280 135 C 296 135, 296 185, 310 185"/>
+            <path d="M288 115 C 300 115, 300 65, 310 65"/><path d="M288 135 C 300 135, 300 185, 310 185"/>
             <text x="178" y="90">signed sync</text>
           </svg>
-          <div class="cap"><span>Kotlin · PostgreSQL · web push</span><span>Applications · Regulated data · Cryptography</span></div>
+          <div class="cap"><span>Kotlin · PostgreSQL · server-rendered web</span><span>Applications · Regulated data · Cryptography</span></div>
         </div>
-        <div class="phasetrack" aria-label="Delivery phases">
-          <div class="pt-head"><span class="label">Delivery phases</span><span class="label">8 of 12 done</span></div>
-          <ol>
-            <li class="done"><i></i><span>Sign-in, roles and audit</span></li>
-            <li class="done"><i></i><span>Patients</span></li>
-            <li class="done"><i></i><span>Trips and dispatch</span></li>
-            <li class="done"><i></i><span>Crew and fleet</span></li>
-            <li class="done"><i></i><span>Driver</span></li>
-            <li class="done"><i></i><span>Android app</span></li>
-            <li class="done"><i></i><span>Sync and review</span></li>
-            <li class="done"><i></i><span>Crew confirms changes</span></li>
-            <li class="now"><i></i><span>Shift and run</span></li>
-            <li><i></i><span>Route monitoring</span></li>
-            <li><i></i><span>Billing (837P / 835)</span></li>
-            <li><i></i><span>ePCR (NEMSIS v3.5)</span></li>
-          </ol>
-          <p class="note">In active development and pre-production: go-live checks such as an outside penetration test are still open.</p>
+        <div class="phasetrack" aria-label="Engineering and architecture">
+          <div class="pt-head"><span class="label">Engineering and architecture</span></div>
+          <p>A streamlined, secure architecture: a centralized application service, a PostgreSQL database, a server-rendered web interface and a Kotlin-based Android application.</p>
+          <ul>
+            <li class="done"><i></i><span>HIPAA-aligned security controls</span></li>
+            <li class="done"><i></i><span>OWASP ASVS and MASVS Level 2 mapping</span></li>
+            <li class="done"><i></i><span>Signed offline event synchronization</span></li>
+            <li class="done"><i></i><span>Append-only audit records</span></li>
+            <li class="done"><i></i><span>Automated security testing</span></li>
+            <li class="done"><i></i><span>Controlled deployment environments</span></li>
+          </ul>
         </div>
       </div>
     </article>
